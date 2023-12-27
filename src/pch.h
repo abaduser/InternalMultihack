@@ -7,14 +7,19 @@
 #ifndef PCH_H
 #define PCH_H
 
-
 // add headers that you want to pre-compile here
 #include "framework.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_opengl3.h"
 #include <Windows.h>
 #include <iostream>
 #include <thread>
+#include <string>
+#include <algorithm>
+#include <unordered_map>
 #include <vector>
 #include <map>
-
+#include "GL/glew.h"
 
 #endif //PCH_H

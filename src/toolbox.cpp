@@ -16,6 +16,22 @@ void base_message(int success, std::wstring message) {
     }
 }
 
+bool stristr(const char* haystack, const char* needle) {
+    if (!haystack || !needle) return false;
+
+    do {
+        const char* h = haystack;
+        const char* n = needle;
+        while (tolower((unsigned char)*h) == tolower((unsigned char)*n) && *n) {
+            h++;
+            n++;
+        }
+        if (*n == 0) return true;
+    } while (*haystack++);
+
+    return false;
+}
+
 void status_message(int success, std::wstring message) {
     base_message(success, message);
 }

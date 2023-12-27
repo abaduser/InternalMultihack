@@ -8,9 +8,9 @@ HINSTANCE moduleHandle;
 void injected_thread() {
     status_message(1, L"Injected thread started...");
     hookmanager::setup();
-    // Panic key disables all hooks and breaks the while loop
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // Panic key disables all hooks and breaks the while loop
         if (GetAsyncKeyState(VK_DELETE) & 1) {
             hookmanager::shutdown();
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
