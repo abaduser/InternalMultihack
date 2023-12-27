@@ -47,160 +47,175 @@ void visuals::draw_visuals(unsigned int &mode, int &count, unsigned int &type, c
     if (boundModel.modelPath == nullptr) {
         return;
     }
-    if (cham.get_enabled()) {
-        switch (boundModel.modelType) {
-        case PLAYER:
-            if (cham.get_chams_player()) {
-                float* playerColor = cham.get_playercolor();
-                // Player Cham Setup
-                (*pGlPushAttrib)(GL_ALL_ATTRIB_BITS); // Pushes the current attribute stack for GL onto the stack
-                (*pGlPushMatrix)(); // Pushes the current matrix onto the stack
-                (*pGlEnable)(GL_COLOR_MATERIAL); // Enables coloring of material
-                (*pGlDisableClientState)(GL_COLOR_ARRAY); // Disables arrays of colors
-                // Draw Wireframe
-                if (wallhack.get_enabled()) {
-                    (*pGlDisable)(GL_DEPTH_TEST); // Disables depth testing
-                    (*pGlEnable)(GL_TEXTURE_2D); // Disables 2D textures
-                    (*pGlDisable)(GL_LINE_SMOOTH); // Make it Cheaper, who cares.
-                    switch (boundModel.modelTeam) {
-                    case BLUE_TEAM:
-                        (*pGlColor4f)(0.0f, 0.0f, 0.75f, 1.0f);
-                        break;
-                    case RED_TEAM:
-                        (*pGlColor4f)(0.75f, 0.0f, 0.0f, 1.0f);
-                        break;
-                    case BRIGHT_TEAM:
-                        
-                        (*pGlColor4f)(playerColor[0], playerColor[1], playerColor[2], playerColor[3]);
-                        break;
-                    case NO_TEAM:
-                        (*pGlColor4f)(0.5f, 0.5f, 0.0f, 1.0f);
-                        break;
-                    }
-                    (*pGlLineWidth)(2.0); // Sets line width to 2.0
-                    (*pGlPolygonMode)(GL_FRONT_AND_BACK, GL_LINE); // Sets polygon drawing mode to outline
-                    (*pGlBlendFunc)(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Sets blending function
-                    (*pGlEnable)(GL_BLEND);  // Disable blending
-                    original(mode, count, type, indices); // Draws
-                }
-                // Draw Cham Color by Team
+    switch (boundModel.modelType) {
+    case PLAYER:
+        if (cham.get_enabled() && cham.get_chams_player()) {
+            float* playerColor = cham.get_playercolor();
+            // Player Cham Setup
+            (*pGlPushAttrib)(GL_ALL_ATTRIB_BITS); // Pushes the current attribute stack for GL onto the stack
+            (*pGlPushMatrix)(); // Pushes the current matrix onto the stack
+            (*pGlEnable)(GL_COLOR_MATERIAL); // Enables coloring of material
+            (*pGlDisableClientState)(GL_COLOR_ARRAY); // Disables arrays of colors
+            // Draw Wireframe
+            if (wallhack.get_wall_player()) {
+                (*pGlDisable)(GL_DEPTH_TEST); // Disables depth testing
+                (*pGlEnable)(GL_TEXTURE_2D); // Disables 2D textures
+                (*pGlDisable)(GL_LINE_SMOOTH); // Make it Cheaper, who cares.
                 switch (boundModel.modelTeam) {
                 case BLUE_TEAM:
-                    (*pGlColor4f)(0.0f, 0.0f, 1.0f, 1.0f);
+                    (*pGlColor4f)(0.0f, 0.0f, 0.75f, 1.0f);
                     break;
                 case RED_TEAM:
-                    (*pGlColor4f)(1.0f, 0.0f, 0.0f, 1.0f);
+                    (*pGlColor4f)(0.75f, 0.0f, 0.0f, 1.0f);
                     break;
                 case BRIGHT_TEAM:
+
                     (*pGlColor4f)(playerColor[0], playerColor[1], playerColor[2], playerColor[3]);
                     break;
                 case NO_TEAM:
-                    (*pGlColor4f)(playerColor[0], playerColor[1], playerColor[2], playerColor[3]);
+                    (*pGlColor4f)(0.5f, 0.5f, 0.0f, 1.0f);
                     break;
                 }
-                (*pGlEnable)(GL_DEPTH_TEST); // Disables depth testing
-                (*pGlDisable)(GL_TEXTURE_2D); // Disables 2D textures
-                (*pGlEnable)(GL_BLEND); // Enables blending
-                (*pGlBlendFunc)(GL_ONE, GL_ZERO); // Sets blending function
-                (*pGlEnable)(GL_LINE_SMOOTH); // Enables anti-aliasing for lines
-                (*pGlPolygonMode)(GL_FRONT_AND_BACK, GL_FILL); // Sets polygon drawing mode to outline
+                (*pGlLineWidth)(2.0); // Sets line width to 2.0
+                (*pGlPolygonMode)(GL_FRONT_AND_BACK, GL_LINE); // Sets polygon drawing mode to outline
+                (*pGlBlendFunc)(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Sets blending function
+                (*pGlEnable)(GL_BLEND);  // Disable blending
                 original(mode, count, type, indices); // Draws
-                // Pop / Cleanup
-
-                (*pGlEnable)(GL_LINE_SMOOTH); // Re-enables anti-aliasing for lines
-                (*pGlEnable)(GL_TEXTURE_2D); // Re-enables 2D textures
-                (*pGlPolygonMode)(GL_FRONT_AND_BACK, GL_FILL); // Sets polygon drawing mode to outline
-                (*pGlEnable)(GL_COLOR_MATERIAL); // Re-enables coloring of material 
-                (*pGlDisableClientState)(GL_COLOR_ARRAY); // Disables arrays of colors
-                (*pGlDisable)(GL_BLEND); // Disables blending
-
-                (*pGlPopMatrix)(); // Pops the matrix off the stack, restoring previous matrix
-                (*pGlPopAttrib)(); // Pops the current attribute stack for GL off the stack    
             }
-            break;
-        case ITEM:
-            if (cham.get_chams_item()) {
-                float* itemColor = cham.get_itemcolor();
-                (*pGlPushAttrib)(GL_ALL_ATTRIB_BITS);
-                (*pGlPushMatrix)();
-                (*pGlEnable)(GL_COLOR_MATERIAL);
-                (*pGlDisableClientState)(GL_COLOR_ARRAY);
-                // Enable blending
-                (*pGlEnable)(GL_BLEND);
-                // choose color
-                (*pGlColor4f)(itemColor[0], itemColor[1], itemColor[2], itemColor[3]);
-                if (wallhack.get_enabled()) {
-                    (*pGlDisable)(GL_DEPTH_TEST); // Makes the object visible through walls
-                }
-                // Disable textures
-                (*pGlDisable)(GL_TEXTURE_2D);
-                // Set blending function
-                (*pGlBlendFunc)(GL_ONE_MINUS_DST_COLOR, GL_ONE);
-                // Disable line smoothing, we don't need an outline
-                (*pGlDisable)(GL_LINE_SMOOTH);
-                // Set the polygon mode to fill the object
-                (*pGlPolygonMode)(GL_FRONT_AND_BACK, GL_FILL);
-                // Draw the elements (this would be your item)
-                original(mode, count, type, indices);
-                // Re-enable depth test
-                (*pGlEnable)(GL_DEPTH_TEST);
-                // Re-enable textures
-                (*pGlEnable)(GL_TEXTURE_2D);
-                (*pGlDisable)(GL_BLEND);
-                // Pop the current matrix off the stack
-                (*pGlPopMatrix)();
-                (*pGlPopAttrib)();
+            // Draw Cham Color by Team
+            switch (boundModel.modelTeam) {
+            case BLUE_TEAM:
+                (*pGlColor4f)(0.0f, 0.0f, 1.0f, 1.0f);
+                break;
+            case RED_TEAM:
+                (*pGlColor4f)(1.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            case BRIGHT_TEAM:
+                (*pGlColor4f)(playerColor[0], playerColor[1], playerColor[2], playerColor[3]);
+                break;
+            case NO_TEAM:
+                (*pGlColor4f)(playerColor[0], playerColor[1], playerColor[2], playerColor[3]);
+                break;
             }
-            break;
-        case PROJECTILE:
-            if (cham.get_chams_projectile()) {
-                float* projectileColor = cham.get_projectilecolor();
-                (*pGlPushAttrib)(GL_ALL_ATTRIB_BITS);
-                (*pGlPushMatrix)();
-                (*pGlEnable)(GL_COLOR_MATERIAL);
-                (*pGlDisableClientState)(GL_COLOR_ARRAY);
-                (*pGlEnable)(GL_BLEND);
-                (*pGlColor4f)(projectileColor[0], projectileColor[1], projectileColor[2], projectileColor[3]);
+            (*pGlEnable)(GL_DEPTH_TEST); // Disables depth testing
+            (*pGlDisable)(GL_TEXTURE_2D); // Disables 2D textures
+            (*pGlEnable)(GL_BLEND); // Enables blending
+            (*pGlBlendFunc)(GL_ONE, GL_ZERO); // Sets blending function
+            (*pGlEnable)(GL_LINE_SMOOTH); // Enables anti-aliasing for lines
+            (*pGlPolygonMode)(GL_FRONT_AND_BACK, GL_FILL); // Sets polygon drawing mode to outline
+            original(mode, count, type, indices); // Draws
+            // Pop / Cleanup
 
-                if (wallhack.get_enabled()) {
-                    (*pGlDisable)(GL_DEPTH_TEST); // Makes the object visible through walls
-                }
+            (*pGlEnable)(GL_LINE_SMOOTH); // Re-enables anti-aliasing for lines
+            (*pGlEnable)(GL_TEXTURE_2D); // Re-enables 2D textures
+            (*pGlPolygonMode)(GL_FRONT_AND_BACK, GL_FILL); // Sets polygon drawing mode to outline
+            (*pGlEnable)(GL_COLOR_MATERIAL); // Re-enables coloring of material 
+            (*pGlDisableClientState)(GL_COLOR_ARRAY); // Disables arrays of colors
+            (*pGlDisable)(GL_BLEND); // Disables blending
 
-                // Disable textures
-                (*pGlDisable)(GL_TEXTURE_2D);
-
-                // Set blending function
-                (*pGlBlendFunc)(GL_ONE_MINUS_DST_COLOR, GL_ONE);
-
-                // Disable line smoothing, we don't need an outline
-                (*pGlDisable)(GL_LINE_SMOOTH);
-
-                // Set the polygon mode to fill the object
-                (*pGlPolygonMode)(GL_FRONT_AND_BACK, GL_FILL);
-
-                // Draw the elements (this would be your item)
-                original(mode, count, type, indices);
-
-                // Re-enable depth test
+            (*pGlPopMatrix)(); // Pops the matrix off the stack, restoring previous matrix
+            (*pGlPopAttrib)(); // Pops the current attribute stack for GL off the stack    
+        }
+        else {
+            if (wallhack.get_enabled() && wallhack.get_wall_player()) {
+                (*pGlDisable)(GL_DEPTH_TEST); // Makes the object visible through walls
+            }
+            else {
                 (*pGlEnable)(GL_DEPTH_TEST);
-
-                // Re-enable textures
-                (*pGlEnable)(GL_TEXTURE_2D);
-
-                (*pGlDisable)(GL_BLEND);
-
-                // Pop the current matrix off the stack
-                (*pGlPopMatrix)();
-                (*pGlPopAttrib)();
             }
         }
-    }
-    
-    if (this->wallhack_should_draw() && !cham.get_enabled()) {
-        (*pGlDisable)(GL_DEPTH_TEST);
-    }
-    else {
-        (*pGlEnable)(GL_DEPTH_TEST);
+        break;
+    case ITEM:
+        if (cham.get_enabled() && cham.get_chams_item()) {
+            float* itemColor = cham.get_itemcolor();
+            (*pGlPushAttrib)(GL_ALL_ATTRIB_BITS);
+            (*pGlPushMatrix)();
+            (*pGlEnable)(GL_COLOR_MATERIAL);
+            (*pGlDisableClientState)(GL_COLOR_ARRAY);
+            // Enable blending
+            (*pGlEnable)(GL_BLEND);
+            // choose color
+            (*pGlColor4f)(itemColor[0], itemColor[1], itemColor[2], itemColor[3]);
+            if (wallhack.get_wall_item()) {
+                (*pGlDisable)(GL_DEPTH_TEST); // Makes the object visible through walls
+            }
+            // Disable textures
+            (*pGlDisable)(GL_TEXTURE_2D);
+            // Set blending function
+            (*pGlBlendFunc)(GL_ONE_MINUS_DST_COLOR, GL_ONE);
+            // Disable line smoothing, we don't need an outline
+            (*pGlDisable)(GL_LINE_SMOOTH);
+            // Set the polygon mode to fill the object
+            (*pGlPolygonMode)(GL_FRONT_AND_BACK, GL_FILL);
+            // Draw the elements (this would be your item)
+            original(mode, count, type, indices);
+            // Re-enable depth test
+            (*pGlEnable)(GL_DEPTH_TEST);
+            // Re-enable textures
+            (*pGlEnable)(GL_TEXTURE_2D);
+            (*pGlDisable)(GL_BLEND);
+            // Pop the current matrix off the stack
+            (*pGlPopMatrix)();
+            (*pGlPopAttrib)();
+        }
+        else {
+            if (wallhack.get_enabled() && wallhack.get_wall_item()) {
+                (*pGlDisable)(GL_DEPTH_TEST); // Makes the object visible through walls
+            }
+            else {
+                (*pGlEnable)(GL_DEPTH_TEST);
+            }
+        }
+        break;
+    case PROJECTILE:
+        if (cham.get_enabled() && cham.get_chams_projectile()) {
+            float* projectileColor = cham.get_projectilecolor();
+            (*pGlPushAttrib)(GL_ALL_ATTRIB_BITS);
+            (*pGlPushMatrix)();
+            (*pGlEnable)(GL_COLOR_MATERIAL);
+            (*pGlDisableClientState)(GL_COLOR_ARRAY);
+            (*pGlEnable)(GL_BLEND);
+            (*pGlColor4f)(projectileColor[0], projectileColor[1], projectileColor[2], projectileColor[3]);
+
+            if (wallhack.get_wall_projectile()) {
+                (*pGlDisable)(GL_DEPTH_TEST); // Makes the object visible through walls
+            }
+
+            // Disable textures
+            (*pGlDisable)(GL_TEXTURE_2D);
+
+            // Set blending function
+            (*pGlBlendFunc)(GL_ONE_MINUS_DST_COLOR, GL_ONE);
+
+            // Disable line smoothing, we don't need an outline
+            (*pGlDisable)(GL_LINE_SMOOTH);
+
+            // Set the polygon mode to fill the object
+            (*pGlPolygonMode)(GL_FRONT_AND_BACK, GL_FILL);
+
+            // Draw the elements (this would be your item)
+            original(mode, count, type, indices);
+
+            // Re-enable depth test
+            (*pGlEnable)(GL_DEPTH_TEST);
+
+            // Re-enable textures
+            (*pGlEnable)(GL_TEXTURE_2D);
+
+            (*pGlDisable)(GL_BLEND);
+
+            // Pop the current matrix off the stack
+            (*pGlPopMatrix)();
+            (*pGlPopAttrib)();
+        }
+        else {
+            if (wallhack.get_enabled() && wallhack.get_wall_projectile()) {
+                (*pGlDisable)(GL_DEPTH_TEST); // Makes the object visible through walls
+            }
+            else {
+                (*pGlEnable)(GL_DEPTH_TEST);
+            }
+        }
     }
 }
 

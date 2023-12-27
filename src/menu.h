@@ -58,7 +58,7 @@ public:
         ImGui::ShowDemoWindow();
         if (ImGui::Begin("InternalMenu", NULL, ImGuiWindowFlags_NoTitleBar)) {
             // Header
-            ImGui::Text("Candyware | Version: 0.5a | Use at your own risk. Not for public use.");
+            ImGui::Text("Candyware | Version: 0.6a | Use at your own risk. Not for public use.");
             for (auto& f : installed_features) {
                 f->draw_menu();
             }
