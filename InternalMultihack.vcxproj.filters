@@ -81,6 +81,21 @@
     <ClInclude Include="Include\MinHook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\QL_Unofficial_SDK\qcommon\q_platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\QL_Unofficial_SDK\cgame\cg_public.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\QL_Unofficial_SDK\qcommon\q_shared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\QL_Unofficial_SDK\cgame\cg_local.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\QL_Unofficial_SDK\renderercommon\tr_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">

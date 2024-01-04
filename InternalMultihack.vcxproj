@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)Include;$(Projectdir)Include\GL;$(Projectdir)Include\imgui;$(Projectdir)Include\GLFW;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Include\QL_SDK\botlib;$(ProjectDir)Include\QL_SDK\game;$(ProjectDir)Include\QL_SDK\cgame;$(ProjectDir)Include\QL_SDK;$(ProjectDir)Include;$(Projectdir)Include\GL;$(Projectdir)Include\imgui;$(Projectdir)Include\GLFW;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\;$(ProjectDir)lib;$(ProjectDir)lib\$(Configuration);$(ProjectDir)lib\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -170,6 +170,11 @@
     <ClInclude Include="Include\imgui\imstb_textedit.h" />
     <ClInclude Include="Include\imgui\imstb_truetype.h" />
     <ClInclude Include="Include\MinHook.h" />
+    <ClInclude Include="Include\QL_Unofficial_SDK\cgame\cg_local.h" />
+    <ClInclude Include="Include\QL_Unofficial_SDK\cgame\cg_public.h" />
+    <ClInclude Include="Include\QL_Unofficial_SDK\qcommon\q_platform.h" />
+    <ClInclude Include="Include\QL_Unofficial_SDK\qcommon\q_shared.h" />
+    <ClInclude Include="Include\QL_Unofficial_SDK\renderercommon\tr_types.h" />
     <ClInclude Include="src\features\glx_info.h" />
     <ClInclude Include="src\features\opengl_definitions.h" />
     <ClInclude Include="src\features\visuals.h" />

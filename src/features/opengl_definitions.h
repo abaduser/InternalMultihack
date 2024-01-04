@@ -18,6 +18,7 @@
 #define GL_ONE_MINUS_DST_COLOR 0x0307
 
 //typedef void(__stdcall* glBegin_t)(unsigned int mode);
+typedef FARPROC (__stdcall* GetProcAddress_t)(HMODULE hModule, LPCSTR  lpProcName);
 typedef void(__stdcall* glDrawElements_t)(unsigned int mode, int count, unsigned int type, const void* indices);
 typedef void(__stdcall* glBindTexture_t)(unsigned int target, unsigned int texture);
 typedef BOOL(__stdcall* wglSwapBuffers_t)(HDC hdc);

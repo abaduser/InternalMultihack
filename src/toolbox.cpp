@@ -41,6 +41,10 @@ std::wstring cchar_to_wstring(const char* source) {
     return std::wstring(sourceString.begin(), sourceString.end());
 }
 
+void status_message(int success, std::wstring message, int i) {
+    base_message(success, message + std::to_wstring(i));
+}
+
 void status_message(int success, std::wstring message, const char* value) {
     base_message(success, message + cchar_to_wstring(value));
 }

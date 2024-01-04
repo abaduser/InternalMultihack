@@ -21,5 +21,10 @@
 #include <vector>
 #include <map>
 #include "GL/glew.h"
+#include "../Include/QL_Unofficial_SDK/qcommon/q_platform.h"
+#include "../Include/QL_Unofficial_SDK/qcommon/q_shared.h"
+#include "../Include/QL_Unofficial_SDK/cgame/cg_public.h"
+#include "../Include/QL_Unofficial_SDK/cgame/cg_local.h"
+#include "../Include/QL_Unofficial_SDK/renderercommon/tr_types.h"
 
 #endif //PCH_H
